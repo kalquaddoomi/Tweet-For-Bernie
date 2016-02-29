@@ -45,20 +45,27 @@ $db->where('citizen_id', $citizen['id']);
 $db->where('captain_id', $_SESSION['captainId']);
 $db->orderBy("sent_time");
 $messages = $db->getOne("messages");
+$nowTime = date("Y-m-d H:i:s");
 
-
-
-$access_token = $_SESSION['access_token'];
-$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
+$date1 = new DateTime($nowTime);
+$date2 = new DateTime($messages['sent_time']);
+$interval = $date2->diff($date1);
+if($interval->days > 0 || $interval->h >= 12) {
+    $access_token = $_SESSION['access_token'];
+    $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
 
 //$followers = $connection->get('followers/list', ["include_user_entities" => false]);
-$messageTo = $connection->post('direct_messages/new', array("user_id"=>$citizenTwitterId, "text"=>$message));
+    $messageTo = $connection->post('direct_messages/new', array("user_id"=>$citizenTwitterId, "text"=>$message));
 
-$messageData = array(
-    'captain_id'=>$_SESSION['captainId'],
-    'citizen_id'=>$citizen['id'],
-    'message'=>$message
-);
-$db->insert('messages', $messageData);
+    $messageData = array(
+        'captain_id'=>$_SESSION['captainId'],
+        'citizen_id'=>$citizen['id'],
+        'message'=>$message
+    );
+    $db->insert('messages', $messageData);
 
-echo "SUCCESS";
+    echo "SUCCESS";
+} else {
+    echo "SUCCESS";
+}
+

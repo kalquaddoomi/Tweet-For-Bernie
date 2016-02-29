@@ -2,6 +2,7 @@
 
 session_start();
 error_reporting(E_ALL);
+date_default_timezone_set("UTC");
 require $_SERVER['DOCUMENT_ROOT']."/../vendor/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/../keys.ini");
@@ -175,6 +176,15 @@ $db->insert('messages', $messageData);
 */
 echo "<pre>";
 print_r($friendsOfBernie);
+echo "</pre>";
+
+$nowTime = date("Y-m-d H:i:s");
+$date1 = new DateTime($nowTime);
+$date2 = new DateTime("2016-01-18 09:02:33");
+$interval = $date2->diff($date1);
+
+echo "<pre>";
+print_r($interval);
 echo "</pre>";
 
 ?>
