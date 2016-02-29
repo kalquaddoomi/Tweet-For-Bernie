@@ -9,7 +9,7 @@ $consumer_key = $keys_ini['consumer_key'];
 $consumer_secret = $keys_ini['consumer_secret'];
 $dbname = $keys_ini['database_name'];
 $dbpass = $keys_ini['database_pass'];
-
+$resync = "false";
 $baseURL = "http://".$_SERVER['SERVER_NAME']."/index.php";
 
 if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
@@ -61,12 +61,20 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             } else {
                 $flashMsg = $db->getLastError();
             }
+            $resync = "true";
+        }
+        $db->where('tw_user_id', $userIdentity->id);
+        $captain = $db->getOne("captains");
+        if($captain['tw_follower_count'] != $userIdentity->followers_count) {
+            $resync = true;
         }
         $_SESSION['captainTwitterId'] = $userIdentity->id;
         $_SESSION['captainId'] = $captain['id'];
         $_SESSION['captainName'] = $userIdentity->name;
         $_SESSION['captainScreen'] = $userIdentity->screen_name;
         $_SESSION['captainImage'] = $userIdentity->profile_image_url;
+        $_SESSION['captainFollowers'] = $userIdentity->followers_count;
+
     }
 }
 ?>
@@ -119,13 +127,12 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 </div>
                 <div class="user-component col-xs-8">
                   <h5>Welcome <span id="username"><?php echo $_SESSION['captainName'] ?></span></h5>
+                    <h5>Total Current Followers: <?php echo $_SESSION['captainFollowers'] ?></h5>
                   <a href="/logout.php" class="sign-out">Sign Out</a>
                 </div>
 
               </div>
-            <div class="col-xs-8">
-                <button id="sync-citizens">Sync my Friends and Followers</button>
-            </div>
+
             <div class="task row">
             <h4 class="task-title col-xs-10 col-xs-offset-1">
                 Send a message to your friends in :
@@ -197,10 +204,13 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   </select>
                 </div>
                 <p class="task-info col-xs-10 col-xs-offset-1">
-                  Democratic Primary is in <span id="task-deadline"></span>
+                  Democratic <span id="task-type"></span> is in <span id="task-deadline"></span>
                 </p>
               </div>
-
+                <div class="col-xs-8 resync-control">
+                    <div id="resync" data-resync="<?php echo $resync ?>"></div>
+                    <button id="sync-citizens">Sync my Friends and Followers Now</button>
+                </div>
             </div>
 
             <div class="container right-container col-xs-12 col-lg-8">

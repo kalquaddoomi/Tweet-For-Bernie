@@ -52,7 +52,7 @@ if($db->count <= 0) {
         $html .= "<p class='friend-screen'>@" . $mycitizen['tw_screen_name'] . "</p>";
         $html .= "<p class='friend-location'>" . $mycitizen['tw_location'] . "</p>";
         if($lastMessage) {
-            $html .= "<p class='friend-contact'>Last Messaged: " . $lastSentMessage . " (EST)</p>";
+            $html .= "<p class='friend-contact'>Last Messaged: " . $lastSentMessage . " (UTC)</p>";
         }
         $html .= "</div>";
         $html .= "</li>";

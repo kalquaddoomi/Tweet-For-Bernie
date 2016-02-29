@@ -6,16 +6,17 @@ $(document).ready(function() {
   var idlist = [];
   var index;
   var stateInfo = [];
-  stateInfo.push({short:"AL", fullname:"Alabama", electType:"primary"});
-  stateInfo.push({short:"AR", fullname:"Arkansas", electType:"primary"});
-  stateInfo.push({short:"CO", fullname:"Colorado", electType:"caucus"});
-  stateInfo.push({short:"FL", fullname:"Florida", electType:"primary"});
-  stateInfo.push({short:"GA", fullname:"Georgia", electType:"primary"});
-  stateInfo.push({short:"MA", fullname:"Massachusetts", electType:"primary"});
-  stateInfo.push({short:"MN", fullname:"Minnesota", electType:"caucus"});
-  stateInfo.push({short:"OK", fullname:"Oklahoma", electType:"primary"});
-  stateInfo.push({short:"TN", fullname:"Tenessee", electType:"primary"});
-  stateInfo.push({short:"TX", fullname:"Texas", electType:"primary"});
+
+  stateInfo.push({short:"AL", fullname:"Alabama", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"AR", fullname:"Arkansas", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"CO", fullname:"Colorado", electType:"caucus", eWhen:"3-1-16"});
+  stateInfo.push({short:"FL", fullname:"Florida", electType:"primary", eWhen:"3-15-16"});
+  stateInfo.push({short:"GA", fullname:"Georgia", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"MA", fullname:"Massachusetts", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"MN", fullname:"Minnesota", electType:"caucus", eWhen:"3-1-16"});
+  stateInfo.push({short:"OK", fullname:"Oklahoma", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"TN", fullname:"Tenessee", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"TX", fullname:"Texas", electType:"primary", eWhen:"3-1-16"});
 
   localStorage.setItem('twitter_ids', JSON.stringify(idlist));
   $('#states-list').change(function(){
@@ -63,10 +64,11 @@ $(document).ready(function() {
       }
     });
     var stateID = stateValue.toUpperCase();
-    var electT;
+    var electT, whenD;
     stateInfo.forEach(function(stInfo) {
       if(stInfo.short == stateID) {
         electT = stInfo.electType;
+        whenD = stInfo.eWhen;
       }
     });
     var today = new Date();
@@ -78,6 +80,18 @@ $(document).ready(function() {
       var momentCheck = "today";
     }
 
+    var eventWhen = new Date(whenD);
+    var milsTill = eventWhen.getTime() - today.getTime();
+    var daysTill = Math.ceil(milsTill / (1000*60*60*24));
+    var hoursTill = Math.ceil(milsTill / (1000*60*60));
+    if(hoursTill < 24) {
+      $('#task-deadline').text(hoursTill + " hours");
+    } else {
+      $('#task-deadline').text(daysTill + " days");
+    }
+
+    $('#task-type').text(electT.charAt(0).toUpperCase() + electT.slice(1));
+
     var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the "+stateID+" "+electT+" "+momentCheck+"? https://vote.berniesanders.com/"+stateID.toLowerCase()+"#TweetsForBernie"
     $('#followers-state').text('Your Bernie Friends in '+stateName+": ");
     $('#friends-message').text(stateMsg);
@@ -86,15 +100,33 @@ $(document).ready(function() {
   $('#sync-citizens').click(function(){
     $.ajax({
       url: "/api/buildtwitters.php",
+      data: {rebuild_citizen: 'true'},
       beforeSend: function() {
         $('#sync-citizens').attr('disabled', 'disabled');
+        $('#sync-citizens').html('<img src="/assets/img/ajax-loader.gif">');
       },
       success: function(msg) {
         $('#sync-citizens').removeAttr('disabled');
+        $('#sync-citizens').html('Sync my friends and followers again');
       }
     });
   });
 
+  var resync = document.getElementById('resync');
+  if(resync == 'true') {
+    $.ajax({
+      url: "/api/buildtwitters.php",
+      data: {rebuild_citizen: 'true'},
+      beforeSend: function() {
+        $('#sync-citizens').attr('disabled', 'disabled');
+        $('#sync-citizens').html('<img src="/assets/img/ajax-loader.gif">');
+      },
+      success: function(msg) {
+        $('#sync-citizens').removeAttr('disabled');
+        $('#sync-citizens').html('Sync my friends and followers again');
+      }
+    });
+  }
   $('#send-messages').click(function(){
     var friendMsg = $('#friends-message').val();
     alert(friendMsg);
