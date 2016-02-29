@@ -1,0 +1,46 @@
+.wrapper{
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.container{
+  // min-height: 100vh;
+  height: 100%;
+  padding: 2rem 0;
+
+  @media screen and (min-width: 1025px) {
+    min-height: 100vh;
+  }
+
+
+  &.left-container{
+    // display: block;
+    background: $lightblue;
+    background-image: url(../public/assets/img/bernie-sm.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% right;
+    background-attachment: fixed;
+    padding: 24rem 2rem 2rem;
+
+    @media screen and (min-width: 768px) {
+      padding: 26rem 3rem 2rem;
+    }
+
+    @media screen and (min-width: 1025px) {
+      padding: 12rem 3rem 2rem;
+    }
+  }
+
+  &.right-container{
+    background: rgba(lighten($yellow, 30), 0.25);
+
+    @media screen and (min-width: 1025px) {
+        padding: 15% 3rem;
+    }
+  }
+}

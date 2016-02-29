@@ -1,0 +1,35 @@
+.login-container{
+  padding: 2rem;
+
+  @media screen and (min-width: 768px) {
+    padding: 2rem 12rem;
+  }
+
+  h2{
+    margin-bottom: 4rem;
+  }
+  .login-buttons{
+    .btn{
+      display: block;
+      max-width: 70%;
+      margin-bottom: 1rem;
+      color: white;
+      padding: 1.25rem 2rem;
+
+      &.btn-fb{
+          background: $darkblue;
+      }
+
+      &.btn-tw{
+          background: $lightblue;
+      }
+
+      @media screen and (min-width: 768px) {
+        max-width: 30%;
+      }
+    }
+    .disclaimer{
+      max-width: 70%;
+    }
+  }
+}

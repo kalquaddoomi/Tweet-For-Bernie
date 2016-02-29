@@ -1,0 +1,11 @@
+{
+  "name": "kalquaddoomi/tweet-for-bernie",
+  "description": "Twitter GOTV Tool",
+  "license": "MIT",
+  "require": {
+    "predis/predis":"1.*",
+    "abraham/twitteroauth": "^0.6.2",
+    "joshcam/mysqli-database-class": "dev-master",
+    "twbs/bootstrap": "^3.3"
+  }
+}
