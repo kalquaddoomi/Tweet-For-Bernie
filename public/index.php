@@ -7,6 +7,9 @@ $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
 
 $consumer_key = $keys_ini['consumer_key'];
 $consumer_secret = $keys_ini['consumer_secret'];
+$dbname = $keys_ini['database_name'];
+$dbpass = $keys_ini['database_pass'];
+
 $baseURL = "http://".$_SERVER['SERVER_NAME']."/dashboard.php";
 
 if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
@@ -136,7 +139,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='https://www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+            ga('create','UA-74460420-1','auto');ga('send','pageview');
         </script>
     </body>
 </html>

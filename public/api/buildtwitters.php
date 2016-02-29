@@ -13,6 +13,8 @@ $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
 
 define("CONSUMER_KEY", $keys_ini['consumer_key']);
 define("CONSUMER_SECRET", $keys_ini['consumer_secret']);
+define("DB_NAME", $keys_ini['database_name']);
+define("DB_PASS", $keys_ini['database_pass']);
 
 $baseURL = "http://".$_SERVER['SERVER_NAME']."/index.php";
 
@@ -132,6 +134,15 @@ function makeCall($callArray, $token, $response = null) {
     $base = $connection->get($callArray[0], $callArray[1]);
     $responseObj = $base->users;
     foreach($responseObj as $obj) {
+        $friendShip = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"BernieSanders"));
+        $friendShipSen = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"SenSanders"));
+
+        if($friendShip->relationship->source->following || $friendShipSen->relationship->source->following) {
+            $friendly = 1;
+        } else {
+            $friendly = 0;
+        }
+
         $response[] = array(
             "tw_name"=> $obj->name,
             "tw_screen_name"=>$obj->screen_name,
@@ -142,6 +153,7 @@ function makeCall($callArray, $token, $response = null) {
             "tw_last_active"=>date("Y-m-d H:i:s", strtotime($obj->status->created_at)),
             "tw_profile_image"=>$obj->profile_image_url,
             "state"=>locationToState($obj->location),
+            "bernie_follower"=>$friendly
         );
     }
     if($base->next_cursor > 0) {
@@ -152,12 +164,11 @@ function makeCall($callArray, $token, $response = null) {
 }
 
 function makeCitizens($response, $type) {
-    $db = new MysqliDb('localhost', 'a', 'a', 'tweetforbernie');
+    $db = new MysqliDb('localhost', DB_NAME, DB_PASS, 'tweetforbernie');
     foreach($response as $respondent) {
         $db->where('tw_user_id', $respondent['tw_user_id']);
         $citizen = $db->getOne ("citizens");
         if(is_null($citizen)) {
-            $respondent['status'] = $type;
             $idCitizen = $db->insert("citizens", $respondent);
             if ($idCitizen) {
                 $db->insert("citizens_to_captains", array("captain_id"=>$_SESSION['captainId'], "citizen_id"=>$idCitizen, "status"=>$type));
@@ -166,6 +177,8 @@ function makeCitizens($response, $type) {
                 die();
             }
         } else {
+            $db-where("id", $citizen['id']);
+            $db->update("citizens", $respondent);
             $db->where('captain_id', $_SESSION['captainId']);
             $db->where('citizen_id', $citizen['id']);
             $db->getOne("citizens_to_captains");
@@ -176,7 +189,7 @@ function makeCitizens($response, $type) {
     }
 }
 
-$db = new MysqliDb('localhost', 'a', 'a', 'tweetforbernie');
+$db = new MysqliDb('localhost', DB_NAME, DB_PASS, 'tweetforbernie');
 
 $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");

@@ -5783,7 +5783,7 @@ button.close {
     background: rgba(254, 238, 215, 0.25); }
     @media screen and (min-width: 1025px) {
       .container.right-container {
-        padding: 10% 3rem; } }
+        padding: 12% 3rem; } }
 
 .top-header {
   position: absolute;
@@ -5968,4 +5968,16 @@ ul#friends-list-container {
   margin:0px;
   line-height:1rem;
 }
+.friend-contact {
+  font-size:0.9rem;
+  padding:0px;
+  margin:2px 0px 0px 0px;
+  line-height:1rem;
+}
 
+#sync-citizens {
+  margin-top:1.5rem;
+  margin-left:1rem;
+  width:95%;
+  font-size:1.2rem;
+}

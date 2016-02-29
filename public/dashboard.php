@@ -7,6 +7,9 @@ $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
 
 $consumer_key = $keys_ini['consumer_key'];
 $consumer_secret = $keys_ini['consumer_secret'];
+$dbname = $keys_ini['database_name'];
+$dbpass = $keys_ini['database_pass'];
+
 $baseURL = "http://".$_SERVER['SERVER_NAME']."/index.php";
 
 if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
@@ -33,7 +36,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
     $_SESSION['access_token'] = $access_token;
     header('Location:'.$baseURL);
 } else {
-    $db = new MysqliDb('localhost', 'a', 'a', 'tweetforbernie');
+    $db = new MysqliDb('localhost', $dbname, $dbpass, 'tweetforbernie');
 
     $access_token = $_SESSION['access_token'];
     $connection = new TwitterOAuth($consumer_key, $consumer_secret, $access_token['oauth_token'], $access_token['oauth_token_secret']);
@@ -130,17 +133,21 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             <div class="task-state col-xs-10 col-xs-offset-1">
                   <select class="form-control" id="states-list">
                     <option value="Unset">Pick a state</option>
+
                   	<option value="AL">Alabama</option>
-                  	<option value="AK">Alaska</option>
-                  	<option value="AZ">Arizona</option>
+                  	<!-- <option value="AK">Alaska</option>
+                  	<option value="AZ">Arizona</option> -->
                   	<option value="AR">Arkansas</option>
-                  	<option value="CA">California</option>
+                      <!--
+                  	<option value="CA">California</option> -->
                   	<option value="CO">Colorado</option>
+                      <!--
                   	<option value="CT">Connecticut</option>
                   	<option value="DE">Delaware</option>
-                  	<option value="DC">District Of Columbia</option>
+                  	<option value="DC">District Of Columbia</option> -->
                   	<option value="FL">Florida</option>
                   	<option value="GA">Georgia</option>
+                      <!--
                   	<option value="HI">Hawaii</option>
                   	<option value="ID">Idaho</option>
                   	<option value="IL">Illinois</option>
@@ -150,10 +157,12 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   	<option value="KY">Kentucky</option>
                   	<option value="LA">Louisiana</option>
                   	<option value="ME">Maine</option>
-                  	<option value="MD">Maryland</option>
+                  	<option value="MD">Maryland</option> -->
+
                   	<option value="MA">Massachusetts</option>
-                  	<option value="MI">Michigan</option>
+                  	<!-- <option value="MI">Michigan</option> -->
                   	<option value="MN">Minnesota</option>
+                      <!--
                   	<option value="MS">Mississippi</option>
                   	<option value="MO">Missouri</option>
                   	<option value="MT">Montana</option>
@@ -165,22 +174,26 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   	<option value="NY">New York</option>
                   	<option value="NC">North Carolina</option>
                   	<option value="ND">North Dakota</option>
-                  	<option value="OH">Ohio</option>
+                  	<option value="OH">Ohio</option> -->
                   	<option value="OK">Oklahoma</option>
-                  	<option value="OR">Oregon</option>
+                    <!--
+                      <option value="OR">Oregon</option>
                   	<option value="PA">Pennsylvania</option>
                   	<option value="RI">Rhode Island</option>
                   	<option value="SC">South Carolina</option>
-                  	<option value="SD">South Dakota</option>
+                  	<option value="SD">South Dakota</option> -->
                   	<option value="TN">Tennessee</option>
                   	<option value="TX">Texas</option>
-                  	<option value="UT">Utah</option>
+                      <!--
+                  	<option value="UT">Utah</option> -->
                   	<option value="VT">Vermont</option>
                   	<option value="VA">Virginia</option>
+                      <!--
                   	<option value="WA">Washington</option>
                   	<option value="WV">West Virginia</option>
                   	<option value="WI">Wisconsin</option>
                   	<option value="WY">Wyoming</option>
+                    <option value="UNK">Locations Unknown</option> -->
                   </select>
                 </div>
                 <p class="task-info col-xs-10 col-xs-offset-1">
@@ -209,7 +222,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   </label>
                 </div> -->
                 <div class="right btn">
-                  <a href="thank-you.html" class="btn btn-primary" type="submit">send</a>
+                  <button class="btn btn-primary" id="send-messages">send</button>
                 </div>
               </div>
             </div>
@@ -238,7 +251,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
             e.src='https://www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+            ga('create','UA-74460420-1','auto');ga('send','pageview');
         </script>
     </body>
 </html>

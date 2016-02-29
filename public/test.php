@@ -148,7 +148,13 @@ function makeCall($callArray, $token, $response = null) {
 }
 
 $captainTwitterId = $_SESSION['captainTwitterId'];
+
 $citizenTwitterId = "704344207603982336";
+
+$friendsOfBernie = $connection->get('friendships/show', array("source_id"=>$captainTwitterId, "target_screen_name"=>"BernieSanders"));
+
+
+/*
 $message = htmlentities("Test Message to FL Voter. http://www.berniesanders.com/fl");
 
 $db->where('tw_user_id', $citizenTwitterId);
@@ -166,9 +172,9 @@ $db->insert('messages', $messageData);
 
 
 // 704344207603982336
-
+*/
 echo "<pre>";
-print_r($messageTo);
+print_r($friendsOfBernie);
 echo "</pre>";
 
 ?>
