@@ -146,8 +146,30 @@ function makeCall($callArray, $token, $response = null) {
     }
     return $response;
 }
+
+$captainTwitterId = $_SESSION['captainTwitterId'];
+$citizenTwitterId = "704344207603982336";
+$message = htmlentities("Test Message to FL Voter. http://www.berniesanders.com/fl");
+
+$db->where('tw_user_id', $citizenTwitterId);
+$citizen = $db->getOne("citizens");
+
+//$followers = $connection->get('followers/list', ["include_user_entities" => false]);
+$messageTo = $connection->post('direct_messages/new', array("user_id"=>$citizenTwitterId, "text"=>$message));
+
+$messageData = array(
+    'captain_id'=>$_SESSION['captainId'],
+    'citizen_id'=>$citizen['id'],
+    'message'=>$message
+);
+$db->insert('messages', $messageData);
+
+
+// 704344207603982336
+
 echo "<pre>";
-print_r(makeCall(array("followers/list", array('cursor'=>-1)), $access_token));
+print_r($messageTo);
 echo "</pre>";
+
 ?>
 
