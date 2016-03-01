@@ -10,7 +10,7 @@ $consumer_secret = $keys_ini['consumer_secret'];
 $dbname = $keys_ini['database_name'];
 $dbpass = $keys_ini['database_pass'];
 
-$baseURL = "http://".$_SERVER['SERVER_NAME']."/dashboard.php";
+$baseURL = "http://".$_SERVER['HTTP_HOST']."/dashboard.php";
 
 if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
     $oauth_callback = $baseURL."?logincomplete=true";
@@ -55,7 +55,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 <div class="logo-block col-xs-10 col-xs-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0">
                   <div class="logo">
                     <a href="index.html">
-                      <img src="./assets/img/TweetsForBernie.svg" alt=/>
+                      <img src="./assets/img/TweetForBernie.svg" alt=/>
                     </a>
                   </div>
                 </div>
@@ -113,7 +113,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             </div>
 
             <div class="container login-container right-container col-xs-12 col-lg-6">
-              <h2>Find your followers who support Bernie on Twitter and make sure they vote! #TweetsForBernie</h2>
+              <h2>Find your followers who support Bernie on Twitter and make sure they vote! #TweetForBernie</h2>
 
               <div class="login-buttons">
                 <a href="<?php echo $url ?>" class="btn btn-tw" type="submit">Login with Twitter</a>

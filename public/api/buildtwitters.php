@@ -16,7 +16,7 @@ define("CONSUMER_SECRET", $keys_ini['consumer_secret']);
 define("DB_NAME", $keys_ini['database_name']);
 define("DB_PASS", $keys_ini['database_pass']);
 
-$baseURL = "http://".$_SERVER['SERVER_NAME']."/index.php";
+$baseURL = "http://".$_SERVER['HTTP_HOST']."/index.php";
 
 
 if(!isset($_SESSION['access_token'])) {

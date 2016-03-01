@@ -94,7 +94,7 @@ $(document).ready(function() {
 
     $('#task-type').text(electT.charAt(0).toUpperCase() + electT.slice(1));
 
-    var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the "+stateID+" "+electT+" "+momentCheck+"? https://vote.berniesanders.com/"+stateID.toLowerCase()+"#TweetsForBernie"
+    var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the "+stateID+" "+electT+" "+momentCheck+"? https://vote.berniesanders.com/"+stateID.toLowerCase()+" #TweetForBernie"
     $('#followers-state').text('Your Bernie Friends in '+stateName+": ");
     $('#friends-message').text(stateMsg);
   });

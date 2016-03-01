@@ -7,5 +7,5 @@
  */
 session_start();
 session_unset();
-$baseURL = "http://".$_SERVER['SERVER_NAME']."/";
+$baseURL = "http://".$_SERVER['HTTP_HOST']."/";
 header('Location:'.$baseURL);

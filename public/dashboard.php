@@ -11,7 +11,7 @@ $consumer_secret = $keys_ini['consumer_secret'];
 $dbname = $keys_ini['database_name'];
 $dbpass = $keys_ini['database_pass'];
 $resync = "false";
-$baseURL = "http://".$_SERVER['SERVER_NAME']."/index.php";
+$baseURL = "http://".$_SERVER['HTTP_HOST']."/index.php";
 
 if(isset($_GET['denied']) && isset($_GET['logincomplete'])) {
     header('Location:'.$baseURL);
@@ -112,7 +112,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 <div class="logo-block col-xs-10 col-xs-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0">
                   <div class="logo">
                     <a href="index.html">
-                      <img src="./assets/img/TweetsForBernie.svg" alt=/>
+                      <img src="./assets/img/TweetForBernie.svg" alt=/>
                     </a>
                   </div>
                 </div>
