@@ -46,12 +46,14 @@ $db->where('citizen_id', $citizen['id']);
 $db->where('captain_id', $_SESSION['captainId']);
 $db->orderBy("sent_time");
 $messages = $db->getOne("messages");
-$nowTime = date("Y-m-d H:i:s");
+if($messages) {
+    $nowTime = date("Y-m-d H:i:s");
+    $date1 = new DateTime($nowTime);
+    $date2 = new DateTime($messages['sent_time']);
+    $interval = $date2->diff($date1);
+}
 
-$date1 = new DateTime($nowTime);
-$date2 = new DateTime($messages['sent_time']);
-$interval = $date2->diff($date1);
-if($interval->days > 0 || $interval->h >= 12) {
+if( !isset($messages['sent_time']) || ($interval->days > 0) || ($interval->h >= 12)) {
     $access_token = $_SESSION['access_token'];
     $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oauth_token'], $access_token['oauth_token_secret']);
 
@@ -67,6 +69,6 @@ if($interval->days > 0 || $interval->h >= 12) {
 
     echo "SUCCESS";
 } else {
-    echo "SENT ALREADY: ".$interval->days. ":".$interval->h;
+    echo "SUCCESS";
 }
 
