@@ -68,7 +68,12 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             </div>
 
             <div class="container left-container col-xs-12 col-lg-6">
-
+                <?php if(isset($_GET['loginerror']) && $_GET['loginerror'] == 'mismatch') { ?>
+                    <div style="height:25px; width:100%; position:fixed; z-order:10000; top:0px; left:0px; background-color:red; color:whitesmoke; font-size:2rem; text-align:center;">
+                        There was a problem with your login. This is often resolved by trying to login again. Please try again.
+                    </div>
+                <?php }
+                ?>
               <ul class="welcome-steps">
                 <li class="welcome-step row">
                   <div class="step-number col-xs-3">

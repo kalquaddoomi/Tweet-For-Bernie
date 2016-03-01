@@ -33,8 +33,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
     $request_token['oauth_token_secret'] = $_SESSION['oauth_token_secret'];
 
     if (isset($_REQUEST['oauth_token']) && $request_token['oauth_token'] !== $_REQUEST['oauth_token']) {
-        echo "Failure to Properly Authenticate!!! Fatal Error...";
-        die();
+        header('Location:'.$baseURL."?loginerror=mismatch");
     }
     $connection = new TwitterOAuth($consumer_key, $consumer_secret, $request_token['oauth_token'], $request_token['oauth_token_secret']);
     $access_token = $connection->oauth("oauth/access_token", ["oauth_verifier" => $_REQUEST['oauth_verifier']]);
