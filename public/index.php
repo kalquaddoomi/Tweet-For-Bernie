@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+error_reporting(E_ERROR);
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");

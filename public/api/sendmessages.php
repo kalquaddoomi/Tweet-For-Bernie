@@ -8,6 +8,7 @@
 session_start();
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 date_default_timezone_set('EST');
+error_reporting(E_ERROR);
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");

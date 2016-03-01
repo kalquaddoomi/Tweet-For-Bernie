@@ -7,6 +7,8 @@
  */
 session_start();
 date_default_timezone_set('EST');
+error_reporting(E_ERROR);
+
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
 
@@ -50,6 +52,8 @@ if($db->count <= 0) {
             } else {
                 $addClass = 'friend-messaged';
             }
+        } else {
+            $addClass = '';
         }
 
         $html .= "<li class='friend-block col-md-4 $addClass' id='".$mycitizen['tw_user_id']."'>";
