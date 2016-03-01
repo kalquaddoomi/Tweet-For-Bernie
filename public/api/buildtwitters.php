@@ -119,12 +119,13 @@ function locationToState($location) {
 
     if(count($parts) > 1) {
         $lookup = strtoupper(trim($parts[1]));
-        if(in_array($lookup, $us_state_abbrevs_names, true)) {
+        if (in_array($lookup, $us_state_abbrevs_names, true)) {
             $state = $lookup;
-        } else if(isset($us_state_abbrevs_names[$lookup])) {
+        } else if (isset($us_state_abbrevs_names[$lookup])) {
             $state = $us_state_abbrevs_names[$lookup];
         }
-    } else {
+    }
+    if($state == 'UNK') {
         $lookup = strtoupper(trim($parts[0]));
         if(isset($us_state_abbrevs_names[$lookup])) {
             $state = $us_state_abbrevs_names[$lookup];
