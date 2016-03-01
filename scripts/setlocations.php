@@ -104,6 +104,21 @@ function locationToState($location) {
         }
     }
 
+    if($state == 'UNK') {
+        $bypiece = explode(" ", $location);
+        foreach($bypiece as $piece) {
+            $uPiece = strtoupper($piece);
+            if(isset($us_state_abbrevs_names[$uPiece])) {
+                $state = $us_state_abbrevs_names[$uPiece];
+            }
+            if($state == 'UNK') {
+                if(in_array($uPiece, $us_state_abbrevs_names, true)) {
+                    $state = $uPiece;
+                }
+            }
+        }
+    }
+
     return $state;
 }
 
