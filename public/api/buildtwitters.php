@@ -6,6 +6,9 @@
  * Time: 8:35 PM
  */
 session_start();
+date_default_timezone_set('EST');
+error_reporting(E_ERROR);
+
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -15,6 +18,7 @@ define("CONSUMER_KEY", $keys_ini['consumer_key']);
 define("CONSUMER_SECRET", $keys_ini['consumer_secret']);
 define("DB_NAME", $keys_ini['database_name']);
 define("DB_PASS", $keys_ini['database_pass']);
+define("ALLOWED_CALLS", 2);
 
 $baseURL = "http://".$_SERVER['HTTP_HOST']."/index.php";
 
@@ -39,6 +43,9 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 if(!isset($_SESSION['captainId'])) {
     echo "ERROR : SESSION EXPIRED";
     exit();
+}
+if(!isset($_GET['reset_counter'])) {
+    $_SESSION['captainLastCursor'] = -1;
 }
 
 function locationToState($location) {
@@ -119,6 +126,9 @@ function locationToState($location) {
         }
     } else {
         $lookup = strtoupper(trim($parts[0]));
+        if(isset($us_state_abbrevs_names[$lookup])) {
+            $state = $us_state_abbrevs_names[$lookup];
+        }
         switch($lookup) {
             case "NYC":
             case "NEW YORK":
@@ -129,20 +139,26 @@ function locationToState($location) {
     }
     return $state;
 }
-function makeCall($callArray, $token, $response = null) {
+function makeCall($callArray, $token, $totalCalls=0, $response = null) {
     $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $token['oauth_token'], $token['oauth_token_secret']);
     $base = $connection->get($callArray[0], $callArray[1]);
+    if(isset($base->errors)) {
+        echo "RATE-LIMIT";
+        exit();
+    }
     $responseObj = $base->users;
     foreach($responseObj as $obj) {
-        $friendShip = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"BernieSanders"));
-        $friendShipSen = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"SenSanders"));
+        // $friendShip = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"BernieSanders"));
+        // $friendShipSen = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"SenSanders"));
 
+        /*
         if($friendShip->relationship->source->following || $friendShipSen->relationship->source->following) {
             $friendly = 1;
         } else {
             $friendly = 0;
         }
-
+        */
+        $friendly = 1;
         $response[] = array(
             "tw_name"=> $obj->name,
             "tw_screen_name"=>$obj->screen_name,
@@ -157,8 +173,9 @@ function makeCall($callArray, $token, $response = null) {
         );
     }
     if($base->next_cursor > 0) {
-        $callArray = array($callArray[0], array("cursor" => $base->next_cursor));
-        makeCall($callArray, $connection, $response);
+        $_SESSION['captainLastCursor'] = $base->next_cursor;
+    } else {
+        $_SESSION['captainLastCursor'] = -1;
     }
     return $response;
 }
@@ -177,9 +194,10 @@ function makeCitizens($response, $type) {
                 die();
             }
         } else {
-            $db->where("id", $citizen['id']);
-            $db->update("citizens", $respondent);
-
+            if(isset($_GET['really_update'])) {
+                $db->where("id", $citizen['id']);
+                $db->update("citizens", $respondent);
+            }
             $db->where('captain_id', $_SESSION['captainId']);
             $db->where('citizen_id', $citizen['id']);
             $db->getOne("citizens_to_captains");
@@ -196,11 +214,9 @@ $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");
 
 if($db->count == 0 || $_GET['rebuild_citizen'] == 'true') {
-    $followers = makeCall(array("followers/list", array('cursor'=>-1,'count'=>200)), $access_token);
+    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'],'count'=>200, 'include_user_entities'=>'false')), $access_token);
     makeCitizens($followers, 1);
-    $friends = makeCall(array("friends/list", array('cursor'=>-1,'count'=>200)), $access_token);
-    makeCitizens($friends, 2);
 }
-echo "Done";
+echo $_SESSION['captainLastCursor'];
 
 exit();

@@ -6,7 +6,7 @@ $(document).ready(function() {
   var idlist = [];
   var index;
   var stateInfo = [];
-
+  var followerRuns = 0;
   stateInfo.push({short:"AL", fullname:"Alabama", electType:"primary", eWhen:"3-1-16"});
   stateInfo.push({short:"AR", fullname:"Arkansas", electType:"primary", eWhen:"3-1-16"});
   stateInfo.push({short:"CO", fullname:"Colorado", electType:"caucus", eWhen:"3-1-16"});
@@ -106,8 +106,35 @@ $(document).ready(function() {
     $('#followers-state').text('Your Bernie Friends in '+stateName+": ");
     $('#friends-message').text(stateMsg);
   });
+  var syncUp = function(info) {
+    $.ajax({
+      url: "/api/buildtwitters.php",
+      data: {rebuild_citizen: 'true'},
+      beforeSend: function() {
+        $('#sync-citizens').attr('disabled', 'disabled');
+        $('#sync-citizens').html('<img src="/assets/img/ajax-loader.gif" width="50px"><span> Batch: '+followerRuns+' - Cursor: '+info+'</span>');
+      },
+      success: function(msg) {
+        $('#sync-citizens').removeAttr('disabled');
+        if(msg == "-1") {
+          $('#sync-citizens').html('Sync my friends and followers again');
+        } else if(msg == "RATE-LIMIT") {
+          $('#sync-citizens').html('RATE LIMIT : Wait 15 minutes. Now Try Sync Again');
+        }else {
+          followerRuns = followerRuns + 1;
+          syncUp(msg);
+        }
+
+      },
+      error: function() {
+        $('#sync-citizens').removeAttr('disabled');
+        $('#sync-citizens').html('ERROR IN SYNC: Try and sync my friends and followers again');
+      }
+    });
+  };
 
   $('#sync-citizens').click(function(){
+    /*
     $.ajax({
       url: "/api/buildtwitters.php",
       data: {rebuild_citizen: 'true'},
@@ -117,9 +144,20 @@ $(document).ready(function() {
       },
       success: function(msg) {
         $('#sync-citizens').removeAttr('disabled');
-        $('#sync-citizens').html('Sync my friends and followers again');
+        if(msg == "-1") {
+          $('#sync-citizens').html('Sync my friends and followers again');
+        } else {
+
+        }
+        //$('#sync-citizens').html('Sync my friends and followers again');
+      },
+      error: function() {
+        $('#sync-citizens').removeAttr('disabled');
+        $('#sync-citizens').html('ERROR IN SYNC: Try and sync my friends and followers again');
       }
     });
+    */
+    syncUp();
   });
 
   var resync = document.getElementById('resync');
