@@ -81,7 +81,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tweet For Bernie</title>
+        <title>Tweets For Bernie</title>
         <link href="./css/master.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="./js/<?php echo $_SESSION['step'].".js"?>"></script>
