@@ -49,7 +49,6 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
         $db->where('tw_user_id', $userIdentity->id);
         $captain = $db->getOne("captains");
         if (is_null($captain)) {
-            echo "\nGenerating new Record\n";
             $data = Array(
                 "tw_user_id" => $userIdentity->id,
                 "tw_screen_name" => $userIdentity->screen_name,
@@ -137,6 +136,10 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
 
               </div>
 
+                <div class="col-xs-8 resync-control">
+                    <div id="resync" data-resync="<?php echo $resync ?>"></div>
+                    <button id="sync-citizens">Sync my Friends and Followers Now</button>
+                </div>
             <div class="task row">
             <h4 class="task-title col-xs-10 col-xs-offset-1">
                 Send a message to your friends in :
@@ -208,17 +211,14 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   </select>
                 </div>
                 <p class="task-info col-xs-10 col-xs-offset-1">
-                  Democratic <span id="task-type"></span> is in <span id="task-deadline"></span>
+                  <span id="task-deadline"></span>
                 </p>
               </div>
-                <div class="col-xs-8 resync-control">
-                    <div id="resync" data-resync="<?php echo $resync ?>"></div>
-                    <button id="sync-citizens">Sync my Friends and Followers Now</button>
-                </div>
+
             </div>
 
             <div class="container right-container col-xs-12 col-lg-8">
-              <h3 id="followers-state"> Pick a State to find your Followers</h3>
+              <h3 id="followers-state">Pick a State to find your Followers</h3>
 
               <ul class="friends-list row" id="friends-list-container">
 
@@ -236,7 +236,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   </label>
                 </div> -->
                 <div class="right btn">
-                  <button class="btn btn-primary" id="send-messages">send</button>
+                  <button class="btn btn-primary" id="send-messages">Send</button>
                 </div>
               </div>
             </div>
