@@ -196,9 +196,9 @@ $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");
 
 if($db->count == 0 || $_GET['rebuild_citizen'] == 'true') {
-    $followers = makeCall(array("followers/list", array('cursor'=>-1)), $access_token);
+    $followers = makeCall(array("followers/list", array('cursor'=>-1,'count'=>200)), $access_token);
     makeCitizens($followers, 1);
-    $friends = makeCall(array("friends/list", array('cursor'=>-1)), $access_token);
+    $friends = makeCall(array("friends/list", array('cursor'=>-1,'count'=>200)), $access_token);
     makeCitizens($friends, 2);
 }
 echo "Done";
