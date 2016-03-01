@@ -262,7 +262,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
         <script>
             (function(d) {
                 var config = {
-                        kitId: 'ptd7fjg',
+                        kitId: 'sry7oto',
                         scriptTimeout: 3000,
                         async: true
                     },

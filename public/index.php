@@ -115,7 +115,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 <p class="disclaimer">We never post on your profile without your permission. Connecting your account helps us find Bernie supporters that you're friends with.</p>
               </div>
             </div>
-              
+
               <div class="panel-footer col-xs-12">
                   <div class="row">
                       <div class="col-xs-10 col-xs-offset-1  col-lg-4 col-lg-offset-4 text-center">
@@ -136,7 +136,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
         <script>
             (function(d) {
                 var config = {
-                        kitId: 'ptd7fjg',
+                        kitId: 'sry7oto',
                         scriptTimeout: 3000,
                         async: true
                     },
