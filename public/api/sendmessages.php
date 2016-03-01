@@ -43,7 +43,6 @@ $db->where('tw_user_id', $citizenTwitterId);
 $citizen = $db->getOne("citizens");
 
 $db->where('citizen_id', $citizen['id']);
-$db->where('captain_id', $_SESSION['captainId']);
 $db->orderBy("sent_time");
 $messages = $db->getOne("messages");
 if($messages) {
