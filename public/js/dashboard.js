@@ -76,9 +76,12 @@ $(document).ready(function() {
     var today = new Date();
     var dd = today.getUTCDate();
     var hours = today.getUTCHours();
+
     if(dd == 29) {
       var momentCheck = "tomorrow";
     } else if(dd == 1 && hours == 10) {
+      var momentCheck = "today";
+    } else {
       var momentCheck = "today";
     }
 
@@ -86,8 +89,13 @@ $(document).ready(function() {
     var milsTill = eventWhen.getTime() - today.getTime();
     var daysTill = Math.ceil(milsTill / (1000*60*60*24));
     var hoursTill = Math.ceil(milsTill / (1000*60*60));
+
     if(hoursTill < 24) {
-      $('#task-deadline').text(hoursTill + " hours");
+      if(hoursTill < 0) {
+        $('#task-deadline').text("TODAY");
+      } else {
+        $('#task-deadline').text(hoursTill + " hours");
+      }
     } else {
       $('#task-deadline').text(daysTill + " days");
     }
