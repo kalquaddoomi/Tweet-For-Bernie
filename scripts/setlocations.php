@@ -106,11 +106,14 @@ function locationToState($location) {
 
     if($state == 'UNK') {
         $uLoc = strtoupper($location);
+        if($uLoc == "WASHINGTON DC") {
+            $state = "DC";
+        }
         if(isset($us_state_abbrevs_names[$uLoc])) {
             $state = $us_state_abbrevs_names[$uLoc];
         }
     }
-    
+
     if($state == 'UNK') {
         $bypiece = explode(" ", $location);
         foreach($bypiece as $piece) {

@@ -134,8 +134,34 @@ function locationToState($location) {
             case "NYC":
             case "NEW YORK":
             case "NEW YORK CITY":
+            case "BROOKLYN":
                 $state = "NY";
                 break;
+        }
+    }
+
+    if($state == 'UNK') {
+        $uLoc = strtoupper($location);
+        if($uLoc == "WASHINGTON DC") {
+            $state = "DC";
+        }
+        if(isset($us_state_abbrevs_names[$uLoc])) {
+            $state = $us_state_abbrevs_names[$uLoc];
+        }
+    }
+
+    if($state == 'UNK') {
+        $bypiece = explode(" ", $location);
+        foreach($bypiece as $piece) {
+            $uPiece = strtoupper($piece);
+            if(isset($us_state_abbrevs_names[$uPiece])) {
+                $state = $us_state_abbrevs_names[$uPiece];
+            }
+            if($state == 'UNK') {
+                if(in_array($uPiece, $us_state_abbrevs_names, true)) {
+                    $state = $uPiece;
+                }
+            }
         }
     }
     return $state;
