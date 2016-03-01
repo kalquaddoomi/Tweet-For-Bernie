@@ -147,7 +147,7 @@ function makeCall($callArray, $token, $totalCalls=0, $response = null) {
             echo "RATE-LIMIT";
         }
     }
-    if($base->next_cursor > 0) {
+    if($base->next_cursor > 1) {
         echo $base->next_cursor;
         $_SESSION['captainLastCursor'] = $nextCursor = $base->next_cursor;
     } else {
@@ -205,8 +205,8 @@ $db = new MysqliDb('localhost', DB_NAME, DB_PASS, 'tweetforbernie');
 $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");
 
-if($_SESSION['captainLastCursor'] == -1) {
-    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'],'count'=>50, 'include_user_entities'=>'false')), $access_token);
+if($_SESSION['captainLastCursor'] == 0) {
+    $followers = makeCall(array("followers/list", array('cursor'=>-1,'count'=>50, 'include_user_entities'=>'false')), $access_token);
 } else {
     $followers = makeCall(array("followers/list", array('cursor' => $_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
 }
