@@ -13,7 +13,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
-$nextCursor = 0;
+$nextCursor = -1;
 define("CONSUMER_KEY", $keys_ini['consumer_key']);
 define("CONSUMER_SECRET", $keys_ini['consumer_secret']);
 define("DB_NAME", $keys_ini['database_name']);
@@ -146,7 +146,13 @@ function makeCall($callArray, $token, $totalCalls=0, $response = null) {
         if($base->errors[0]->code == 88) {
             echo "RATE-LIMIT";
         }
-        exit();
+    }
+    if($base->next_cursor > 0) {
+        echo $base->next_cursor;
+        $_SESSION['captainLastCursor'] = $nextCursor = $base->next_cursor;
+    } else {
+        $_SESSION['captainLastCursor'] = $nextCursor = -1;
+        echo -1;
     }
     $responseObj = $base->users;
     foreach($responseObj as $obj) {
@@ -164,11 +170,7 @@ function makeCall($callArray, $token, $totalCalls=0, $response = null) {
             "bernie_follower"=>$friendly
         );
     }
-    if($base->next_cursor > 0) {
-        $_SESSION['captainLastCursor'] = $nextCursor = $base->next_cursor;
-    } else {
-        $_SESSION['captainLastCursor'] = $nextCursor = -1;
-    }
+
     return $response;
 }
 
@@ -203,14 +205,11 @@ $db = new MysqliDb('localhost', DB_NAME, DB_PASS, 'tweetforbernie');
 $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");
 
-if($db->count == 0 || $_GET['rebuild_citizen'] == 'true') {
-    if($_SESSION['captainLastCursor'] == -1) {
-        $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'],'count'=>50, 'include_user_entities'=>'false')), $access_token);
-    } else {
-        $followers = makeCall(array("followers/list", array('cursor' => $_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
-    }
-    makeCitizens($followers, 1);
+if($_SESSION['captainLastCursor'] == -1) {
+    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'],'count'=>50, 'include_user_entities'=>'false')), $access_token);
+} else {
+    $followers = makeCall(array("followers/list", array('cursor' => $_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
 }
-echo $nextCursor;
+makeCitizens($followers, 1);
 
 exit();

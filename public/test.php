@@ -152,7 +152,7 @@ $captainTwitterId = $_SESSION['captainTwitterId'];
 
 $citizenTwitterId = "704344207603982336";
 
-$friendsOfBernie = $connection->get('friendships/show', array("source_id"=>$captainTwitterId, "target_screen_name"=>"BernieSanders"));
+$friendsOfBernie = $connection->get('followers/list')
 
 
 /*
