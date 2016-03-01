@@ -177,7 +177,7 @@ function makeCitizens($response, $type) {
                 die();
             }
         } else {
-            $db-where("id", $citizen['id']);
+            $db->where("id", $citizen['id']);
             $db->update("citizens", $respondent);
 
             $db->where('captain_id', $_SESSION['captainId']);
