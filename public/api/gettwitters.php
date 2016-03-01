@@ -41,9 +41,18 @@ if($db->count <= 0) {
         $lastMessage = $db->getOne("messages");
         if($lastMessage) {
             $lastSentMessage = date("m-d-y g:i a", strtotime($lastMessage['sent_time']));
+            $nowTime = date("Y-m-d H:i:s");
+            $date1 = new DateTime($nowTime);
+            $date2 = new DateTime($lastMessage['sent_time']);
+            $interval = $date2->diff($date1);
+            if($interval->days > 0 || $interval->h >= 12) {
+                $addClass = '';
+            } else {
+                $addClass = 'friend-messaged';
+            }
         }
 
-        $html .= "<li class='friend-block col-md-4' id='".$mycitizen['tw_user_id']."'>";
+        $html .= "<li class='friend-block col-md-4 $addClass' id='".$mycitizen['tw_user_id']."'>";
         $html .= "<div class='friend-avatar col-xs-4'>";
         $html .= "   <img src='" . $mycitizen['tw_profile_image'] . "' alt='' style='width:100%'/>";
         $html .= "</div>";

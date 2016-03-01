@@ -5985,3 +5985,9 @@ ul#friends-list-container {
   margin-top:80%;
   margin-left:auto;
 }
+
+.friend-messaged {
+  background-image: url("/assets/img/mailsendiconmini.png");
+  background-repeat: no-repeat;
+  background-position: right 5px center;
+}

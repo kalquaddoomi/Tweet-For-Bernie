@@ -41,24 +41,26 @@ $(document).ready(function() {
           }
         $('.friend-block').click(function()
         {
-          idlist = JSON.parse(localStorage.getItem('twitter_ids'));
-          if(idlist === null) {
-            index = -1;
-          } else {
-            index = idlist.indexOf(this.id);
-          }
-          if(index == -1) {
-            idlist.push(this.id);
-            localStorage.setItem('twitter_ids', JSON.stringify(idlist));
-            this.style.backgroundImage = 'url("/assets/img/ticklittle.png")';
-            this.style.backgroundRepeat = 'no-repeat';
-            this.style.backgroundPosition = 'right center';
-          } else {
-            idlist.splice(index, 1);
-            localStorage.setItem('twitter_ids', JSON.stringify(idlist));
-            this.style.backgroundImage = 'none';
-            this.style.backgroundRepeat = 'none';
-            this.style.backgroundPosition = 'none';
+          if(this.className.indexOf('friend-messaged') == -1) {
+            idlist = JSON.parse(localStorage.getItem('twitter_ids'));
+            if (idlist === null) {
+              index = -1;
+            } else {
+              index = idlist.indexOf(this.id);
+            }
+            if (index == -1) {
+              idlist.push(this.id);
+              localStorage.setItem('twitter_ids', JSON.stringify(idlist));
+              this.style.backgroundImage = 'url("/assets/img/ticklittle.png")';
+              this.style.backgroundRepeat = 'no-repeat';
+              this.style.backgroundPosition = 'right center';
+            } else {
+              idlist.splice(index, 1);
+              localStorage.setItem('twitter_ids', JSON.stringify(idlist));
+              this.style.backgroundImage = 'none';
+              this.style.backgroundRepeat = 'none';
+              this.style.backgroundPosition = 'none';
+            }
           }
         });
       }

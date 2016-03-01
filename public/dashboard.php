@@ -108,7 +108,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 <div class="logo-block col-xs-10 col-xs-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0">
                   <div class="logo">
                     <a href="index.html">
-                      <img src="./assets/img/logo.svg" alt=/>
+                      <img src="./assets/img/TweetsForBernie.svg" alt=/>
                     </a>
                   </div>
                 </div>
@@ -128,7 +128,6 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 </div>
                 <div class="user-component col-xs-8">
                   <h5>Welcome <span id="username"><?php echo $_SESSION['captainName'] ?></span></h5>
-                    <h5>Total Current Followers: <?php echo $_SESSION['captainFollowers'] ?></h5>
                   <a href="/logout.php" class="sign-out">Sign Out</a>
                 </div>
 
