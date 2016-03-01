@@ -80,6 +80,14 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
 
     }
 }
+if(isset($_GET['sessionReport']) && $_GET['sessionReport'] == 'khaled') {
+    echo "<pre>";
+    print_r($_SESSION);
+    echo "</pre>";
+}
+if(isset($_GET['flushSessions']) && $_GET['flushSessions'] == 'doit') {
+    session_destroy();
+}
 ?>
 <!doctype html>
 <html class="no-js" lang="">

@@ -67,6 +67,6 @@ if($interval->days > 0 || $interval->h >= 12) {
 
     echo "SUCCESS";
 } else {
-    echo "SUCCESS";
+    echo "SENT ALREADY: ".$interval->days. ":".$interval->h;
 }
 

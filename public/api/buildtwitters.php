@@ -13,7 +13,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
-
+$nextCursor = 0;
 define("CONSUMER_KEY", $keys_ini['consumer_key']);
 define("CONSUMER_SECRET", $keys_ini['consumer_secret']);
 define("DB_NAME", $keys_ini['database_name']);
@@ -143,21 +143,13 @@ function makeCall($callArray, $token, $totalCalls=0, $response = null) {
     $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $token['oauth_token'], $token['oauth_token_secret']);
     $base = $connection->get($callArray[0], $callArray[1]);
     if(isset($base->errors)) {
-        echo "RATE-LIMIT";
+        if($base->errors[0]->code == 88) {
+            echo "RATE-LIMIT";
+        }
         exit();
     }
     $responseObj = $base->users;
     foreach($responseObj as $obj) {
-        // $friendShip = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"BernieSanders"));
-        // $friendShipSen = $connection->get('friendships/show', array("source_id"=>$obj->id, "target_screen_name"=>"SenSanders"));
-
-        /*
-        if($friendShip->relationship->source->following || $friendShipSen->relationship->source->following) {
-            $friendly = 1;
-        } else {
-            $friendly = 0;
-        }
-        */
         $friendly = 1;
         $response[] = array(
             "tw_name"=> $obj->name,
@@ -173,9 +165,9 @@ function makeCall($callArray, $token, $totalCalls=0, $response = null) {
         );
     }
     if($base->next_cursor > 0) {
-        $_SESSION['captainLastCursor'] = $base->next_cursor;
+        $_SESSION['captainLastCursor'] = $nextCursor = $base->next_cursor;
     } else {
-        $_SESSION['captainLastCursor'] = -1;
+        $_SESSION['captainLastCursor'] = $nextCursor = -1;
     }
     return $response;
 }
@@ -194,10 +186,8 @@ function makeCitizens($response, $type) {
                 die();
             }
         } else {
-            if(isset($_GET['really_update'])) {
-                $db->where("id", $citizen['id']);
-                $db->update("citizens", $respondent);
-            }
+            $db->where("id", $citizen['id']);
+            $db->update("citizens", $respondent);
             $db->where('captain_id', $_SESSION['captainId']);
             $db->where('citizen_id', $citizen['id']);
             $db->getOne("citizens_to_captains");
@@ -214,9 +204,13 @@ $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");
 
 if($db->count == 0 || $_GET['rebuild_citizen'] == 'true') {
-    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'],'count'=>200, 'include_user_entities'=>'false')), $access_token);
+    if($_SESSION['captainLastCursor'] == -1) {
+        $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'],'count'=>50, 'include_user_entities'=>'false')), $access_token);
+    } else {
+        $followers = makeCall(array("followers/list", array('cursor' => $_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
+    }
     makeCitizens($followers, 1);
 }
-echo $_SESSION['captainLastCursor'];
+echo $nextCursor;
 
 exit();
