@@ -152,7 +152,7 @@ $captainTwitterId = $_SESSION['captainTwitterId'];
 
 $citizenTwitterId = "704344207603982336";
 
-$friendsOfBernie = $connection->get('followers/list')
+$friendsOfBernie = $connection->get('followers/list');
 
 
 /*
@@ -178,14 +178,7 @@ echo "<pre>";
 print_r($friendsOfBernie);
 echo "</pre>";
 
-$nowTime = date("Y-m-d H:i:s");
-$date1 = new DateTime($nowTime);
-$date2 = new DateTime("2016-01-18 09:02:33");
-$interval = $date2->diff($date1);
 
-echo "<pre>";
-print_r($interval);
-echo "</pre>";
 
 ?>
 
