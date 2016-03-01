@@ -61,7 +61,8 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 </div>
 
                 <div class="quote-block col-xs-10 col-xs-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0">
-                  <h2>“IF THERE IS A LARGE VOTER TURNOUT, WE WILL WIN.”</h2>
+                    <h2>“IF THERE IS A LARGE VOTER TURNOUT,
+                     WE WILL WIN.”</h2>
                 </div>
               </div>
             </div>
@@ -76,7 +77,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   <div class="step-content col-xs-12 col-md-9 col-md-offset-1 col-lg-10 col-lg-offset-2">
                     <h5>step 1</h5>
                     <h2>Log into Tweet For Bernie</h2>
-                    <p>with your Twitter account. We never post on your profile without your permission. Connecting your account helps us find Bernie supporters that you're friends with.</p>
+                    <p>with your Twitter account. We never post on your profile without your permission. Connecting your account helps us find Bernie supporters that follow you.</p>
                   </div>
                 </li>
 
@@ -87,7 +88,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   <div class="step-content col-xs-12 col-md-9 col-md-offset-1 col-lg-10 col-lg-offset-2">
                     <h5>step 2</h5>
                     <h2>We'll Find Your Followers</h2>
-                    <p>by location and voting and voter registration deadlines.</p>
+                    <p>based on what state they live in and if they follow Bernie.</p>
                   </div>
                 </li>
 
@@ -97,8 +98,8 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   </div>
                   <div class="step-content col-xs-12 col-md-9 col-md-offset-1 col-lg-10 col-lg-offset-2">
                     <h5>step 3</h5>
-                    <h2>Send Your Friends a Twitter Message</h2>
-                    <p>voting information for their state.that we’ll provide that includes important locations and links.</p>
+                    <h2>Send Your Friends a Tweet</h2>
+                    <p>that we'll help you write with important information relevant to their state.</p>
                   </div>
                 </li>
               </ul>
@@ -107,7 +108,7 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             </div>
 
             <div class="container login-container right-container col-xs-12 col-lg-6">
-              <h2>Find your friends on Twitter. Encourage them to support Bernie, and help them get to the polls on primary election day.</h2>
+              <h2>Find your followers who support Bernie on Twitter and make sure they vote! #TweetsForBernie</h2>
 
               <div class="login-buttons">
                 <a href="<?php echo $url ?>" class="btn btn-tw" type="submit">Login with Twitter</a>

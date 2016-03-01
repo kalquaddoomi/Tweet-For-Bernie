@@ -113,9 +113,10 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                   </div>
                 </div>
 
-                <div class="quote-block col-xs-10 col-xs-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0">
-                  <h2>“IF THERE IS A LARGE VOTER TURNOUT, WE WILL WIN.”</h2>
-                </div>
+                  <div class="quote-block col-xs-10 col-xs-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-0">
+                      <h2>“IF THERE IS A LARGE VOTER TURNOUT,
+                          WE WILL WIN.”</h2>
+                  </div>
               </div>
             </div>
 

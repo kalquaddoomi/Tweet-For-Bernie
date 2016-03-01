@@ -5835,7 +5835,7 @@ button.close {
           max-width: 66%;
           text-align: left;
           margin: 0;
-          color: #317abe; } }
+          color: rgb(191, 29, 46); } }
   @media screen and (min-width: 1025px) {
     .top-header.app {
       width: 66%; } }
