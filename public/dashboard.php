@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 $keys_ini = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . "/../keys.ini");
@@ -11,6 +12,10 @@ $dbname = $keys_ini['database_name'];
 $dbpass = $keys_ini['database_pass'];
 $resync = "false";
 $baseURL = "http://".$_SERVER['SERVER_NAME']."/index.php";
+
+if(isset($_GET['denied']) && isset($_GET['logincomplete'])) {
+    header('Location:'.$baseURL);
+}
 
 if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
     $oauth_callback = $baseURL."?logincomplete=true";
@@ -238,8 +243,18 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             </div>
 
 
-
+            <div class="panel-footer col-xs-12">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1  col-lg-4 col-lg-offset-4 text-center">
+                        <h4>Built by volunteers</h4>
+                        <a href="https://coders.forsanders.com/" target="_blank">
+                            <img src="./assets/img/white-billionaires-2x.png" class="not-the-b" alt="built buy volunteers, not the billionaires!">
+                        </a>
+                    </div>
+                </div>
+            </div>
           </div>
+
 
         <script src="./assets/js/deps/dependencies.js"></script>
         <script src="./assets/js/main.js"></script>
@@ -263,5 +278,6 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-74460420-1','auto');ga('send','pageview');
         </script>
+
     </body>
 </html>
