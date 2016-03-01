@@ -5779,12 +5779,19 @@ button.close {
     @media screen and (min-width: 1025px) {
       .container.left-container {
         padding: 12rem 3rem 2rem; } }
+    @media screen and (min-width: 768px) {
+      .container.left-container {
+      background-image: url(/assets/img/bernie-lg.png);
+      background-position: 20% 0%;  } }
   .container.right-container {
     background: rgba(254, 238, 215, 0.25); }
     @media screen and (min-width: 1025px) {
       .container.right-container {
         padding: 12% 3rem; } }
 
+.left-container {
+
+}
 .top-header {
   position: absolute;
   z-index: 100;
@@ -5991,3 +5998,4 @@ ul#friends-list-container {
   background-repeat: no-repeat;
   background-position: right 5px center;
 }
+
