@@ -55,7 +55,8 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
                 "tw_name" => $userIdentity->name,
                 "tw_location" => $userIdentity->location,
                 "tw_friend_count" => $userIdentity->friends_count,
-                "tw_follower_count" => $userIdentity->followers_count
+                "tw_follower_count" => $userIdentity->followers_count,
+                "tw_profile_image" => $userIdentity->profile_image_url
             );
             $idCaptain = $db->insert('captains', $data);
 
@@ -64,19 +65,30 @@ if(!isset($_SESSION['access_token']) && !isset($_GET['logincomplete'])) {
             } else {
                 $flashMsg = $db->getLastError();
             }
-            $resync = "true";
+            $resync = "yes";
         }
         $db->where('tw_user_id', $userIdentity->id);
         $captain = $db->getOne("captains");
         if($captain['tw_follower_count'] != $userIdentity->followers_count) {
-            $resync = true;
+            $resync = "yes";
+        } else {
+            $resync = "no";
         }
-        $_SESSION['captainTwitterId'] = $userIdentity->id;
-        $_SESSION['captainId'] = $captain['id'];
-        $_SESSION['captainName'] = $userIdentity->name;
-        $_SESSION['captainScreen'] = $userIdentity->screen_name;
-        $_SESSION['captainImage'] = $userIdentity->profile_image_url;
-        $_SESSION['captainFollowers'] = $userIdentity->followers_count;
+        if($captain) {
+            $_SESSION['captainTwitterId'] = $captain['tw_user_id'];
+            $_SESSION['captainId'] = $captain['id'];
+            $_SESSION['captainName'] = $captain['tw_name'];
+            $_SESSION['captainScreen'] = $captain['tw_screen_name'];
+            $_SESSION['captainImage'] = $captain['tw_profile_image'];
+            $_SESSION['captainFollowers'] = $captain['tw_follower_count'];
+        } else {
+            $_SESSION['captainTwitterId'] = $userIdentity->id;
+            $_SESSION['captainId'] = $captain['id'];
+            $_SESSION['captainName'] = $userIdentity->name;
+            $_SESSION['captainScreen'] = $userIdentity->screen_name;
+            $_SESSION['captainImage'] = $userIdentity->profile_image_url;
+            $_SESSION['captainFollowers'] = $userIdentity->followers_count;
+        }
 
     }
 }
@@ -87,6 +99,15 @@ if(isset($_GET['sessionReport']) && $_GET['sessionReport'] == 'khaled') {
 }
 if(isset($_GET['flushSessions']) && $_GET['flushSessions'] == 'doit') {
     session_destroy();
+}
+$db->where('captain_id', $_SESSION['captainId']);
+$db->get('citizens_to_captains');
+$syncCount = $db->count;
+
+if($_SESSION['captainFollowers'] > $syncCount) {
+    $resync = "yes - ".$_SESSION['captainFollowers']." : $syncCount";
+} else {
+    $resync = "no - ".$_SESSION['captainFollowers']." : $syncCount";
 }
 ?>
 <!doctype html>
@@ -145,7 +166,11 @@ if(isset($_GET['flushSessions']) && $_GET['flushSessions'] == 'doit') {
               </div>
 
                 <div class="col-xs-8 resync-control">
-                    <div id="resync" data-resync="<?php echo $resync ?>"></div>
+                    <ul class="col-xs-12" id="sync-info">
+                        <li>Followers On Twitter : <span id="sync-twitter-followers"><?php echo $_SESSION['captainFollowers'] ?></span></li>
+                        <li>Loaded into TweetForBernie : <span id="sync-tfb-followers"><?php echo $syncCount ?></span></li>
+                    </ul>
+                    <div id="resync-rule" data-resync="<?php echo $resync ?>"></div>
                     <button id="sync-citizens">Sync my Friends and Followers Now</button>
                 </div>
             <div class="task row">

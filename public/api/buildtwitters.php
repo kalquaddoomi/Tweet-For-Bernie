@@ -218,6 +218,7 @@ function makeCitizens($response, $type) {
         } else {
             $db->where("id", $citizen['id']);
             $db->update("citizens", $respondent);
+
             $db->where('captain_id', $_SESSION['captainId']);
             $db->where('citizen_id', $citizen['id']);
             $db->getOne("citizens_to_captains");
@@ -236,7 +237,7 @@ $db->get("citizens_to_captains");
 if($_SESSION['captainLastCursor'] < 0) {
     $followers = makeCall(array("followers/list", array('cursor'=>-1,'count'=>50, 'include_user_entities'=>'false')), $access_token);
 } else {
-    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
+    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'], 'count' => 200, 'include_user_entities' => 'false')), $access_token);
 }
 
 makeCitizens($followers, 1);

@@ -6011,5 +6011,12 @@ ul#friends-list-container {
 }
 #username {
   font-size:2rem;
-  font-weight: bolder;
+  font-weight:bolder;
+}
+#sync-info {
+  list-style:none;
+  font-size:1rem;
+  padding-top:2px;
+  padding-botton:0;
+  margin:0;
 }

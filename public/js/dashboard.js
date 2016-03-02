@@ -180,20 +180,9 @@ $(document).ready(function() {
     syncUp();
   });
 
-  var resync = document.getElementById('resync');
-  if(resync == 'true') {
-    $.ajax({
-      url: "/api/buildtwitters.php",
-      data: {rebuild_citizen: 'true'},
-      beforeSend: function() {
-        $('#sync-citizens').attr('disabled', 'disabled');
-        $('#sync-citizens').html('<img src="/assets/img/ajax-loader.gif">');
-      },
-      success: function(msg) {
-        $('#sync-citizens').removeAttr('disabled');
-        $('#sync-citizens').html('Sync my friends and followers again');
-      }
-    });
+  var resync = document.getElementById('resync-rule');
+  if(resync.dataset['resync'] == 'yes') {
+    syncUp();
   }
   $('#send-messages').click(function(){
     var friendMsg = $('#friends-message').val();
