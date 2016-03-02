@@ -7,6 +7,7 @@ $(document).ready(function() {
   var index;
   var stateInfo = [];
   var followerRuns = 0;
+  var allowRecall = false;
   stateInfo.push({short:"AL", fullname:"Alabama", electType:"primary", eWhen:"3-1-16"});
   stateInfo.push({short:"AR", fullname:"Arkansas", electType:"primary", eWhen:"3-1-16"});
   stateInfo.push({short:"CO", fullname:"Colorado", electType:"caucus", eWhen:"3-1-16"});
@@ -117,7 +118,8 @@ $(document).ready(function() {
       $('#friends-message').text(stateMsg);
     }
   });
-  var syncUp = function(info) {
+  var syncUp = function() {
+
     $.ajax({
       url: "/api/buildtwitters.php",
       data: {rebuild_citizen: 'true'},
@@ -129,18 +131,24 @@ $(document).ready(function() {
         $('#sync-citizens').removeAttr('disabled');
         if(msg == "-1") {
           $('#sync-citizens').html('Sync my Friends and Followers Again');
+          allowRecall = false;
         } else if(msg == "RATE-LIMIT") {
           $('#sync-citizens').html('RATE LIMIT : Wait 15 minutes, and try Sync Again');
+          allowRecall = false;
           setTimeout(function(){$('#sync-citizens').html('Sync my Friends and Followers Again');}, 900000);
         }else {
           followerRuns = followerRuns + 1;
-          syncUp(msg);
+          allowRecall = true;
         }
-
       },
       error: function() {
         $('#sync-citizens').removeAttr('disabled');
         $('#sync-citizens').html('ERROR IN SYNC: Try and sync my friends and followers again');
+      },
+      complete: function() {
+        if(allowRecall) {
+          syncUp();
+        }
       }
     });
   };

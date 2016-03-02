@@ -44,7 +44,7 @@ if(!isset($_SESSION['captainId'])) {
     echo "ERROR : SESSION EXPIRED";
     exit();
 }
-if(!isset($_GET['reset_counter'])) {
+if(isset($_GET['reset_counter']) && $_GET['reset_counter'] == 'yes') {
     $_SESSION['captainLastCursor'] = -1;
 }
 
@@ -172,6 +172,7 @@ function makeCall($callArray, $token, $totalCalls=0, $response = null) {
     if(isset($base->errors)) {
         if($base->errors[0]->code == 88) {
             echo "RATE-LIMIT";
+            exit();
         }
     }
     if($base->next_cursor > 1) {
@@ -232,11 +233,12 @@ $db = new MysqliDb('localhost', DB_NAME, DB_PASS, 'tweetforbernie');
 $db->where("captain_id", $_SESSION['captainId']);
 $db->get("citizens_to_captains");
 
-if($_SESSION['captainLastCursor'] == 0) {
+if($_SESSION['captainLastCursor'] < 0) {
     $followers = makeCall(array("followers/list", array('cursor'=>-1,'count'=>50, 'include_user_entities'=>'false')), $access_token);
 } else {
-    $followers = makeCall(array("followers/list", array('cursor' => $_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
+    $followers = makeCall(array("followers/list", array('cursor'=>$_SESSION['captainLastCursor'], 'count' => 50, 'include_user_entities' => 'false')), $access_token);
 }
+
 makeCitizens($followers, 1);
 
 exit();

@@ -152,7 +152,7 @@ $captainTwitterId = $_SESSION['captainTwitterId'];
 
 $citizenTwitterId = "704344207603982336";
 
-$friendsOfBernie = $connection->get('followers/list');
+$friendsOfBernie = $connection->get('followers/list', array("count"=>1, "cursor"=>1527701858901948960));
 
 
 /*
