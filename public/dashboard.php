@@ -179,8 +179,9 @@ if($_SESSION['captainFollowers'] > $syncCount) {
             </h4>
             <div class="task-state col-xs-10 col-xs-offset-1">
                   <select class="form-control" id="states-list">
-                    <option value="Unset">Pick a state</option>
 
+                    <option value="Unset">Pick a state</option>
+                      <?php /*
                   	<option value="AL">Alabama</option>
                   	<!-- <option value="AK">Alaska</option>
                   	<option value="AZ">Arizona</option> -->
@@ -241,6 +242,7 @@ if($_SESSION['captainFollowers'] > $syncCount) {
                   	<option value="WI">Wisconsin</option>
                   	<option value="WY">Wyoming</option>
                     <option value="UNK">Locations Unknown</option> -->
+                    */ ?>
                   </select>
                 </div>
                 <p class="task-info col-xs-10 col-xs-offset-1">

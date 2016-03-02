@@ -21,6 +21,45 @@ $(document).ready(function() {
   stateInfo.push({short:"VT", fullname:"Vermont", electType:"primary", eWhen:"3-1-16"});
   stateInfo.push({short:"VA", fullname:"Virgina", electType:"primary", eWhen:"3-1-16"});
 
+  stateInfo.push({short:"KS", fullname:"Kansas", electType:"primary", eWhen:"3-5-16"});
+  stateInfo.push({short:"LA", fullname:"Louisiana", electType:"primary", eWhen:"3-5-16"});
+  stateInfo.push({short:"NE", fullname:"Nebraska", electType:"primary", eWhen:"3-5-16"});
+  stateInfo.push({short:"MN", fullname:"Maine", electType:"primary", eWhen:"3-6-16"});
+
+
+  stateInfo.forEach(function(stateData){
+    var today = new Date();
+    var eventWhen = new Date(stateData.eWhen);
+    var milsTill = eventWhen.getTime() - today.getTime();
+    var daysTill = Math.ceil(milsTill / (1000 * 60 * 60 * 24));
+    var hoursTill = Math.ceil(milsTill / (1000 * 60 * 60));
+    var timeTill;
+    if (hoursTill < 24) {
+      if (hoursTill < 0) {
+        var momentCheck = " passed";
+      } else {
+        $('#states-list')
+         .append($("<option></option>")
+         .attr("value", stateData.short)
+         .text(stateData.fullname));
+      }
+    } else {
+      if(daysTill == 1) {
+        $('#states-list')
+         .append($("<option></option>")
+          .attr("value", stateData.short)
+          .text(stateData.fullname));
+      } else if (daysTill < 10) {
+        $('#states-list')
+         .append($("<option></option>")
+          .attr("value", stateData.short)
+          .text(stateData.fullname));
+
+      }
+    }
+  });
+
+
   localStorage.setItem('twitter_ids', JSON.stringify(idlist));
   $('#states-list').change(function(){
 
@@ -31,6 +70,7 @@ $(document).ready(function() {
       $('#friends-message').text('');
       $('#task-deadline').text('');
     } else {
+      $("#states-list option[value='Unset']").remove();
       var stateName = $('#states-list option:selected').text();
       $.ajax({
         url: "/api/gettwitters.php",
@@ -82,17 +122,6 @@ $(document).ready(function() {
         }
       });
       var today = new Date();
-      var dd = today.getUTCDate();
-      var hours = today.getUTCHours();
-
-      if (dd == 29) {
-        var momentCheck = "tomorrow";
-      } else if (dd == 1 && hours == 10) {
-        var momentCheck = "today";
-      } else {
-        var momentCheck = "today";
-      }
-
       var eventWhen = new Date(whenD);
       var milsTill = eventWhen.getTime() - today.getTime();
       var daysTill = Math.ceil(milsTill / (1000 * 60 * 60 * 24));
@@ -100,20 +129,26 @@ $(document).ready(function() {
       var timeTill;
       if (hoursTill < 24) {
         if (hoursTill < 0) {
-          timeTill = " is TODAY"
+          timeTill = " has PASSED"
+          var momentCheck = " today";
         } else {
-
           timeTill = " is in " + hoursTill + " hour"+(hoursTill > 1 ? 's' : '');
+          var momentCheck = " today";
         }
       } else {
-        timeTill = " is in " + daysTill + " day"+(daysTill > 1 ? 's' : '');;
+        timeTill = " is in " + daysTill + " day"+(daysTill > 1 ? 's' : '');
+        if(daysTill == 1) {
+
+        } else {
+          var momentCheck = "";
+        }
       }
       var stateinformationMsg = "Democratic " + electT.charAt(0).toUpperCase() + electT.slice(1) + timeTill;
 
       $('#task-deadline').text(stateinformationMsg);
 
 
-      var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the " + stateID + " " + electT + " " + momentCheck + "? https://vote.berniesanders.com/" + stateID.toLowerCase() + " #TweetForBernie"
+      var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the " + stateID + " " + electT + "" + momentCheck + "? https://vote.berniesanders.com/" + stateID.toLowerCase() + " #TweetForBernie"
       $('#followers-state').text('Your Bernie Friends in ' + stateName + ": ");
       $('#friends-message').text(stateMsg);
     }

@@ -6,7 +6,7 @@
  * Time: 8:59 AM
  */
 session_start();
-date_default_timezone_set('EST');
+date_default_timezone_set('UTC');
 error_reporting(E_ERROR);
 
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";

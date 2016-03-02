@@ -7,7 +7,7 @@
  */
 session_start();
 require $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
-date_default_timezone_set('EST');
+date_default_timezone_set('UTC');
 error_reporting(E_ERROR);
 
 use Abraham\TwitterOAuth\TwitterOAuth;
