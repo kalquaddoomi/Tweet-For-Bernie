@@ -115,10 +115,11 @@ function locationToState($location) {
     );
     $parts = explode(",", $location);
     $state = "UNK";
-
+    $location = strtoupper($location);
 
     if(count($parts) > 1) {
         $lookup = strtoupper(trim($parts[1]));
+
         if (in_array($lookup, $us_state_abbrevs_names, true)) {
             $state = $lookup;
         } else if (isset($us_state_abbrevs_names[$lookup])) {
@@ -155,11 +156,21 @@ function locationToState($location) {
         foreach($bypiece as $piece) {
             $uPiece = strtoupper($piece);
             if(isset($us_state_abbrevs_names[$uPiece])) {
-                $state = $us_state_abbrevs_names[$uPiece];
+                if($uPiece == "KANSAS") {
+                    if(stristr($location, 'MO'))    {
+                        $state = "MO";
+                    } else {
+                        $state = "KS";
+                    }
+                } else {
+                    $state = $us_state_abbrevs_names[$uPiece];
+                }
             }
             if($state == 'UNK') {
                 if(in_array($uPiece, $us_state_abbrevs_names, true)) {
-                    $state = $uPiece;
+                    if($uPiece != 'LA') {
+                        $state = $uPiece;
+                    }
                 }
             }
         }

@@ -8,23 +8,61 @@ $(document).ready(function() {
   var stateInfo = [];
   var followerRuns = 0;
   var allowRecall = false;
-  stateInfo.push({short:"AL", fullname:"Alabama", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"AR", fullname:"Arkansas", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"CO", fullname:"Colorado", electType:"caucus", eWhen:"3-1-16"});
-  stateInfo.push({short:"FL", fullname:"Florida", electType:"primary", eWhen:"3-15-16"});
-  stateInfo.push({short:"GA", fullname:"Georgia", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"MA", fullname:"Massachusetts", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"MN", fullname:"Minnesota", electType:"caucus", eWhen:"3-1-16"});
-  stateInfo.push({short:"OK", fullname:"Oklahoma", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"TN", fullname:"Tenessee", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"TX", fullname:"Texas", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"VT", fullname:"Vermont", electType:"primary", eWhen:"3-1-16"});
-  stateInfo.push({short:"VA", fullname:"Virgina", electType:"primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"AL", fullname:"Alabama", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"AR", fullname:"Arkansas", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"CO", fullname:"Colorado", electType:"Caucus", eWhen:"3-1-16"});
+  stateInfo.push({short:"GA", fullname:"Georgia", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"MA", fullname:"Massachusetts", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"MN", fullname:"Minnesota", electType:"Caucus", eWhen:"3-1-16"});
+  stateInfo.push({short:"OK", fullname:"Oklahoma", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"TN", fullname:"Tenessee", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"TX", fullname:"Texas", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"VT", fullname:"Vermont", electType:"Primary", eWhen:"3-1-16"});
+  stateInfo.push({short:"VA", fullname:"Virgina", electType:"Primary", eWhen:"3-1-16"});
 
-  stateInfo.push({short:"KS", fullname:"Kansas", electType:"primary", eWhen:"3-5-16"});
-  stateInfo.push({short:"LA", fullname:"Louisiana", electType:"primary", eWhen:"3-5-16"});
-  stateInfo.push({short:"NE", fullname:"Nebraska", electType:"primary", eWhen:"3-5-16"});
-  stateInfo.push({short:"MN", fullname:"Maine", electType:"primary", eWhen:"3-6-16"});
+  stateInfo.push({short:"KS", fullname:"Kansas", electType:"Caucus", eWhen:"3-5-16"});
+  stateInfo.push({short:"LA", fullname:"Louisiana", electType:"Primary", eWhen:"3-5-16"});
+  stateInfo.push({short:"NE", fullname:"Nebraska", electType:"Caucus", eWhen:"3-5-16"});
+  stateInfo.push({short:"MN", fullname:"Maine", electType:"Caucus", eWhen:"3-6-16"});
+  stateInfo.push({short:"MI", fullname:"Michigan", electType:"Primary", eWhen:"3-8-16"});
+  stateInfo.push({short:"MS", fullname:"Mississippi", electType:"Primary", eWhen:"3-8-16"});
+  stateInfo.push({short:"IL", fullname:"Illinois", electType:"Primary", eWhen:"3-15-16"});
+  stateInfo.push({short:"FL", fullname:"Florida", electType:"Primary", eWhen:"3-15-16"});
+  stateInfo.push({short:"OH", fullname:"Maine", electType:"Primary", eWhen:"3-15-16"});
+  stateInfo.push({short:"NC", fullname:"North Carolina", electType:"Primary", eWhen:"3-15-16"});
+  stateInfo.push({short:"AZ", fullname:"Arizona", electType:"Primary", eWhen:"3-22-16"});
+  stateInfo.push({short:"UT", fullname:"Utah", electType:"Caucus", eWhen:"3-22-16"});
+  stateInfo.push({short:"ID", fullname:"Idaho", electType:"Caucus", eWhen:"3-22-16"});
+  stateInfo.push({short:"WA", fullname:"Washington", electType:"Caucus", eWhen:"3-26-16"});
+  stateInfo.push({short:"HI", fullname:"Hawaii", electType:"Caucus", eWhen:"3-26-16"});
+  stateInfo.push({short:"AK", fullname:"Alaska", electType:"Caucus", eWhen:"3-26-16"});
+
+  stateInfo.push({short:"WI", fullname:"Wisconsin", electType:"Primary", eWhen:"4-5-16"});
+  stateInfo.push({short:"WY", fullname:"Wyoming", electType:"Caucus", eWhen:"4-9-16"});
+  stateInfo.push({short:"NY", fullname:"New York", electType:"Primary", eWhen:"4-19-16"});
+  stateInfo.push({short:"PA", fullname:"Pennsylvania", electType:"Primary", eWhen:"4-26-16"});
+  stateInfo.push({short:"CT", fullname:"Connecticut", electType:"Primary", eWhen:"4-26-16"});
+  stateInfo.push({short:"MD", fullname:"Maryland", electType:"Primary", eWhen:"4-26-16"});
+  stateInfo.push({short:"RI", fullname:"Rhode Island", electType:"Primary", eWhen:"4-26-16"});
+  stateInfo.push({short:"DE", fullname:"Delaware", electType:"Primary", eWhen:"4-26-16"});
+  stateInfo.push({short:"IN", fullname:"Indiana", electType:"Primary", eWhen:"5-3-16"});
+  stateInfo.push({short:"WV", fullname:"West Virginia", electType:"Primary", eWhen:"5-10-16"});
+  stateInfo.push({short:"OR", fullname:"Oregon", electType:"Primary", eWhen:"5-17-16"});
+  stateInfo.push({short:"KY", fullname:"Kentucky", electType:"Primary", eWhen:"5-17-16"});
+  stateInfo.push({short:"PR", fullname:"Puerto Rico", electType:"Primary", eWhen:"6-5-16"});
+  stateInfo.push({short:"CA", fullname:"California", electType:"Primary", eWhen:"6-7-16"});
+  stateInfo.push({short:"NJ", fullname:"New Jersy", electType:"Primary", eWhen:"6-7-16"});
+  stateInfo.push({short:"NM", fullname:"New Mexico", electType:"Primary", eWhen:"6-7-16"});
+  stateInfo.push({short:"MT", fullname:"Montana", electType:"Primary", eWhen:"6-7-16"});
+  stateInfo.push({short:"ND", fullname:"North Dakota", electType:"Primary", eWhen:"6-7-16"});
+  stateInfo.push({short:"SD", fullname:"South Dakota", electType:"Primary", eWhen:"6-7-16"});
+  stateInfo.push({short:"DC", fullname:"District of Columbia", electType:"Primary", eWhen:"6-14-16"});
+
+
+
+
+
+
 
 
   stateInfo.forEach(function(stateData){
@@ -41,19 +79,20 @@ $(document).ready(function() {
         $('#states-list')
          .append($("<option></option>")
          .attr("value", stateData.short)
-         .text(stateData.fullname));
+         .text(stateData.fullname+" ("+stateData.electType+" Today)"));
       }
     } else {
       if(daysTill == 1) {
         $('#states-list')
          .append($("<option></option>")
           .attr("value", stateData.short)
-          .text(stateData.fullname));
+          .text(stateData.fullname+" ("+stateData.electType+" Tomorrow)")
+        );
       } else if (daysTill < 10) {
         $('#states-list')
          .append($("<option></option>")
           .attr("value", stateData.short)
-          .text(stateData.fullname));
+          .text(stateData.fullname+" ("+stateData.electType+" In "+daysTill+" Days)"));
 
       }
     }
@@ -143,12 +182,12 @@ $(document).ready(function() {
           var momentCheck = "";
         }
       }
-      var stateinformationMsg = "Democratic " + electT.charAt(0).toUpperCase() + electT.slice(1) + timeTill;
+      var stateinformationMsg = "Democratic " + electT + timeTill;
 
       $('#task-deadline').text(stateinformationMsg);
 
 
-      var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the " + stateID + " " + electT + "" + momentCheck + "? https://vote.berniesanders.com/" + stateID.toLowerCase() + " #TweetForBernie"
+      var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the " + stateID + " " + electT.toLowerCase() + "" + momentCheck + "? https://vote.berniesanders.com/" + stateID.toLowerCase() + " #TweetForBernie"
       $('#followers-state').text('Your Bernie Friends in ' + stateName + ": ");
       $('#friends-message').text(stateMsg);
     }
