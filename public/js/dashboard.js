@@ -20,10 +20,10 @@ $(document).ready(function() {
   stateInfo.push({short:"VT", fullname:"Vermont", electType:"Primary", eWhen:"3-1-16"});
   stateInfo.push({short:"VA", fullname:"Virgina", electType:"Primary", eWhen:"3-1-16"});
 
-  stateInfo.push({short:"KS", fullname:"Kansas", electType:"Caucus", eWhen:"3-5-16"});
-  stateInfo.push({short:"LA", fullname:"Louisiana", electType:"Primary", eWhen:"3-5-16"});
-  stateInfo.push({short:"NE", fullname:"Nebraska", electType:"Caucus", eWhen:"3-5-16"});
-  stateInfo.push({short:"MN", fullname:"Maine", electType:"Caucus", eWhen:"3-6-16"});
+  stateInfo.push({short:"KS", fullname:"Kansas", electType:"Caucus", eWhen:"3-5-16 8:00:00"});
+  stateInfo.push({short:"LA", fullname:"Louisiana", electType:"Primary", eWhen:"3-5-16 8:00:00"});
+  stateInfo.push({short:"NE", fullname:"Nebraska", electType:"Caucus", eWhen:"3-5-16 7:00:00"});
+  stateInfo.push({short:"MN", fullname:"Maine", electType:"Caucus", eWhen:"3-6-16 7:00:00"});
   stateInfo.push({short:"MI", fullname:"Michigan", electType:"Primary", eWhen:"3-8-16"});
   stateInfo.push({short:"MS", fullname:"Mississippi", electType:"Primary", eWhen:"3-8-16"});
   stateInfo.push({short:"IL", fullname:"Illinois", electType:"Primary", eWhen:"3-15-16"});
@@ -64,25 +64,24 @@ $(document).ready(function() {
 
 
 
-
+  var today = new Date();
   stateInfo.forEach(function(stateData){
-    var today = new Date();
     var eventWhen = new Date(stateData.eWhen);
     var milsTill = eventWhen.getTime() - today.getTime();
     var daysTill = Math.ceil(milsTill / (1000 * 60 * 60 * 24));
     var hoursTill = Math.ceil(milsTill / (1000 * 60 * 60));
     var timeTill;
-    if (hoursTill < 24) {
-      if (hoursTill < 0) {
-        var momentCheck = " passed";
-      } else {
+
+    if (hoursTill < 0) {
+       var momentCheck = " passed";
+     } else if((today.getDate() == eventWhen.getDate()) && (today.getMonth() == eventWhen.getMonth())) {
         $('#states-list')
          .append($("<option></option>")
          .attr("value", stateData.short)
          .text(stateData.fullname+" ("+stateData.electType+" Today)"));
-      }
+
     } else {
-      if(daysTill == 1) {
+      if(eventWhen.getDate() - today.getDate() == 1 && (today.getMonth() == eventWhen.getMonth())) {
         $('#states-list')
          .append($("<option></option>")
           .attr("value", stateData.short)
@@ -153,11 +152,12 @@ $(document).ready(function() {
         }
       });
       var stateID = stateValue.toUpperCase();
-      var electT, whenD;
+      var electT, whenD, fullname;
       stateInfo.forEach(function (stInfo) {
         if (stInfo.short == stateID) {
           electT = stInfo.electType;
           whenD = stInfo.eWhen;
+          fullname = stInfo.fullname;
         }
       });
       var today = new Date();
@@ -165,29 +165,25 @@ $(document).ready(function() {
       var milsTill = eventWhen.getTime() - today.getTime();
       var daysTill = Math.ceil(milsTill / (1000 * 60 * 60 * 24));
       var hoursTill = Math.ceil(milsTill / (1000 * 60 * 60));
+      var momentCheck;
       var timeTill;
-      if (hoursTill < 24) {
-        if (hoursTill < 0) {
-          timeTill = " has PASSED"
-          var momentCheck = " today";
-        } else {
-          timeTill = " is in " + hoursTill + " hour"+(hoursTill > 1 ? 's' : '');
-          var momentCheck = " today";
-        }
+      if (hoursTill < 0) {
+        momentCheck = " passed";
+      } else if((today.getDate() == eventWhen.getDate()) && (today.getMonth() == eventWhen.getMonth())) {
+        momentCheck = " today";
       } else {
-        timeTill = " is in " + daysTill + " day"+(daysTill > 1 ? 's' : '');
-        if(daysTill == 1) {
-
-        } else {
-          var momentCheck = "";
+        if(eventWhen.getDate() - today.getDate() == 1 && (today.getMonth() == eventWhen.getMonth())) {
+          momentCheck = " tomorrow";
+        } else if (daysTill < 10) {
+            momentCheck = " in "+daysTill+" days"
         }
       }
-      var stateinformationMsg = "Democratic " + electT + timeTill;
+      var stateinformationMsg = "Democratic " + electT + momentCheck;
 
       $('#task-deadline').text(stateinformationMsg);
 
 
-      var stateMsg = "Bernie wins if there's large voter turnout. Will you vote for him in the " + stateID + " " + electT.toLowerCase() + "" + momentCheck + "? https://vote.berniesanders.com/" + stateID.toLowerCase() + " #TweetForBernie"
+      var stateMsg = "Bernie wins if there's a large voter turnout. This political revolution depends on "+fullname+". Will you vote for him in the " + stateID + " " + electT.toLowerCase() + "" + momentCheck + "? https://vote.berniesanders.com/" + stateID.toLowerCase() + " #TweetForBernie"
       $('#followers-state').text('Your Bernie Friends in ' + stateName + ": ");
       $('#friends-message').text(stateMsg);
     }

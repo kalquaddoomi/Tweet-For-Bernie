@@ -5769,7 +5769,7 @@ button.close {
     background: #24aae1;
     background-image: url(/assets/img/bernie-sm.png);
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: 50% right;
     background-attachment: fixed;
     padding: 24rem 2rem 2rem; }
