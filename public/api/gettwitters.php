@@ -55,6 +55,9 @@ if($db->count <= 0) {
         } else {
             $addClass = '';
         }
+        if($mycitizen['state'] == 'UNK') {
+            $addClass .= ' state-unknown';
+        }
 
         $html .= "<li class='friend-block col-md-4 $addClass' id='".$mycitizen['tw_user_id']."'>";
         $html .= "<div class='friend-avatar col-xs-4'>";
